@@ -13,7 +13,10 @@ bot.on('message', (msg) => {
   const botReply = handler(msg);
 
   if (botReply) {
-    const messageSent = bot.sendMessage(chatId, botReply.response)
+    const messageSent = bot.sendMessage(chatId, botReply.response,
+      {
+        "reply_to_message_id": botReply.originMsgId
+      })
       .then(result => setTimeout(
         () => {
           bot.deleteMessage(chatId, result.message_id);
