@@ -2,11 +2,14 @@ const greeting = require('./greeting');
 
 const buildReply = function(msg) {
     if (msg.new_chat_members || msg.text === '/start') {
-        const newMemberName = msg.from?.first_name ?? 'Синебот';
+        const newMemberName = msg.new_chat_member?.first_name ?? msg.from?.first_name ?? 'Синебот';
         
-        return greeting(newMemberName);
+        return {
+            response: greeting(newMemberName),
+            originMsgId: msg.message_id
+        };
     }
-    
+
     return false;
 }
 
