@@ -10,7 +10,7 @@ const bot = new TelegramBot(token, { polling: true });
 bot.on("polling_error", console.log);
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
-  const allowedChats = [-1001878806793, -1002112816469]
+  const allowedChats = [-1001878806793, -1002112816469, -1001725911815];
 
   if (!allowedChats.includes(chatId) && msg.chat.type != 'private') {
     console.log(`Access restricted for: ${chatId}`);
