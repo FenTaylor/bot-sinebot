@@ -23,7 +23,7 @@ bot.on('message', (msg) => {
     const messageSent = bot.sendMessage(chatId, botReply)
       .then(result => setTimeout(
         () => bot.deleteMessage(chatId, result.message_id),
-        1000 * 60)
+        1000 * 120)
       );
   }
 
