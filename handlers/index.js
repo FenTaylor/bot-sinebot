@@ -1,5 +1,5 @@
 const greeting = require('./greeting');
-const allowedChats = [-1001878806793, -1002112816469];
+const allowedChats = [-1001878806793, -1002112816469, -4051808094];
 
 const buildReply = function (msg) {
     if (msg.new_chat_members || msg.text === '/start') {
