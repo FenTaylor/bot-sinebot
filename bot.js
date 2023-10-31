@@ -12,7 +12,7 @@ bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   const botReply = handler(msg);
 
-  if (botReply) {
+  if (botReply.response) {
     const messageSent = bot.sendMessage(chatId, botReply.response,
       {
         "reply_to_message_id": botReply.originMsgId
@@ -24,6 +24,10 @@ bot.on('message', (msg) => {
         },
         1000 * 60 * 3)
       );
+  }
+
+  if (botReply.sticker) {
+    bot.sendSticker(chatId, botReply.sticker);
   }
 
 });
