@@ -1,10 +1,10 @@
 const TelegramBot = require('node-telegram-bot-api');
-const dotenv = require('dotenv');
 const handler = require('./handlers');
 
+const dotenv = require('dotenv');
 dotenv.config();
 
-const token = process.env.API_TOKEN;
+const token = process.env.TELEGRAM_API_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 bot.on("polling_error", console.log);

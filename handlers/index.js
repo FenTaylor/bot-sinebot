@@ -2,9 +2,11 @@ const greeting = require('./greeting');
 const allowedChats = [-1001878806793, -1002112816469, -4051808094];
 
 let fs = require('fs');
-let newMembers = JSON.parse(fs.readFileSync('users.json', 'utf8'));
+let newMembers = JSON.parse(fs.readFileSync('storage/users.json', 'utf8'));
+let chatHistory = JSON.parse(fs.readFileSync('storage/chat.json', 'utf8'));
 
 const buildReply = function (msg) {
+    console.log(msg);
 
     if (msg.new_chat_members) {
         const newMemberName = msg.new_chat_member?.first_name;
@@ -23,8 +25,7 @@ const buildReply = function (msg) {
             joined: Date.now()
         };
 
-        console.log(newMembers);
-        fs.writeFileSync('users.json', JSON.stringify(newMembers));
+        fs.writeFileSync('storage/users.json', JSON.stringify(newMembers));
 
         return {
             response: greeting(newMemberName),
@@ -44,6 +45,12 @@ const buildReply = function (msg) {
             response: "Спасибо, не надо",
             originMsgId: msg.message_id
         };
+    }
+
+    if (msg.reply_to_message) {
+        let msgId = msg.message_id;
+        let replyToId = msg.reply_to_message.message_id;
+        let replyToUsername = msg.reply_to_message.from.username;
     }
 
     return false;
