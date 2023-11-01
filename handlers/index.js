@@ -76,7 +76,7 @@ const buildReply = async function (msg) {
         };
     }
 
-    if (msg.text?.toLowerCase().includes('синебот') || msg.reply_to_message?.from.id === 6578767077) {
+    if (msg.text?.toLowerCase().includes('синебот') || msg.text?.toLowerCase().includes('sinebot') || msg.reply_to_message?.from.id === 6578767077) {
 
         let fromId = msg.from.id;
         let fromName = msg.from.first_name;
