@@ -2,5 +2,3 @@
 node_modules/
 logs
 *.log
-users.json
-chat.json
