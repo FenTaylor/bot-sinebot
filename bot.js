@@ -8,14 +8,15 @@ const token = process.env.TELEGRAM_API_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 bot.on("polling_error", console.log);
-bot.on('message', (msg) => {
+bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
-  const botReply = handler(msg);
+  const botReply = await handler(msg);
 
   if (botReply.response) {
-    const messageSent = bot.sendMessage(chatId, botReply.response,
+    const messageSent = bot.sendMessage(botReply.chatId ? botReply.chatId : chatId, botReply.response,
       {
-        "reply_to_message_id": botReply.originMsgId
+        "reply_to_message_id": botReply.originMsgId,
+        "parse_mode": "HTML"
       })
       .then(result => setTimeout(
         () => {
