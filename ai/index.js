@@ -11,29 +11,29 @@ const openFun = async (chatHistory, lastMsg) => {
 
     let messages = [];
 
-    for (const [msgId, newMsg] of Object.entries(chatHistory)) {
+    for (const [msgId, newMsg] of Object.entries(chatHistory)) {    
         messages.push({
             role: newMsg.role,
-            content: `${newMsg.fromName} сказал: ${newMsg.text}` 
+            content: `<${newMsg.fromName}>: ${newMsg.text}` 
         }); 
     }
 
     messages.push({
         role: lastMsg.role,
-        content: `${lastMsg.fromName} сказал: ${lastMsg.text}` 
+        content: `<${lastMsg.fromName}>: ${lastMsg.text}`  
     }); 
- 
-    messages.unshift( { "role": "system", "content": process.env.BOT_PROMPT });
+    
+    messages.unshift( { "role": "system", "content": process.env.BOT_PROMPT }); 
 
-    console.log("AI Generation started...", messages); 
+    console.log("AI Generation started...", messages);   
 
     const chatCompletion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: messages,
-        max_tokens: 500
+        max_tokens: 1000
     }); 
 
     return chatCompletion.choices[0].message.content;
-}
+} 
 
-module.exports = openFun;
+module.exports = openFun; 

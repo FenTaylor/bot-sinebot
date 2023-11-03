@@ -8,15 +8,19 @@ let chatHistory = JSON.parse(fs.readFileSync('storage/chat.json', 'utf8'));
 
 const buildReply = async function (msg) {
 
+    if (!allowedChats.includes(msg.chat.id) && 1 === 2) {
+        console.log(`Access restricted for: ${msg.chat.id}`, msg);
+        
+        return {
+            response: "Access restricted",
+            originMsgId: msg.message_id
+        };
+    };
+
     if (msg.new_chat_members) {
         const newMemberName = msg.new_chat_member?.first_name;
         const newMemberId = msg.new_chat_member?.id;
         const newMemberUsername = msg.new_chat_member?.username;
-
-        if (!allowedChats.includes(msg.chat.id) && msg.chat.type != 'private') {
-            console.log(`Access restricted for: ${msg.chat.id}`, msg);
-            return false
-        };
 
         newMembers[newMemberId] = {
             id: newMemberId,
@@ -65,62 +69,52 @@ const buildReply = async function (msg) {
     }
 
     if (msg.text === 'Хочешь чаю?' || msg.sticker?.thumbnail?.file_unique_id === 'AQADNwAD1QiNOXI') {
-        
-        return {
+
+        return { 
             originMsgId: msg.message_id,
             sticker: "CAACAgIAAxkBAAOgZUBkkkoh_e_cH0s-mFinjLWOKlkAAjgAA9UIjTmWlPGVmKqJDzME"
         };
-        
 
         return {
-            response: "Спасибо, не надо", 
+            response: "Спасибо, не надо",
             originMsgId: msg.message_id
         };
     }
 
-    if (msg.text?.toLowerCase().includes('синебот') || msg.text?.toLowerCase().includes('sinebot')  || msg.text?.toLowerCase().includes('antialkashkabot') || msg.reply_to_message?.from.id === 6578767077) {
-        
-        return false;
-        
-        return ({
-            response: "Да уж",
-            originMsgId: msg.message_id
-        });
-        
+    if ((msg.text?.toLowerCase().includes('синебот') || msg.text?.toLowerCase().includes('sinebot') || msg.text?.toLowerCase().includes('antialkashkabot') || msg.reply_to_message?.from.id === 6578767077)) {
 
-        let fromId = msg.from.id;
+        let fromId = msg.from.id; 
         let fromName = msg.from.first_name;
         let msgId = msg.message_id;
         let replyToMsgId = msg.reply_to_message?.message_id;
         let replyToUserId = msg.reply_to_message?.from.id;
 
         let lastMsg = {
-            msgId: msgId, 
+            msgId: msgId,
             fromId: fromId,
             fromName: fromName,
             replyToMsgId: replyToMsgId,
             replyToUserId: replyToUserId,
             text: msg.text,
             date: Date.now(),
-            role: "user"
+            role: "user",
+            chatId: msg.chat.id
         };
 
         let aiReply = await ai(chatHistory, lastMsg);
 
         chatHistory[msgId] = lastMsg;
 
-        aiReply = aiReply.replace("Синебот сказал:", "");
-        aiReply = aiReply.replace("Синебот ответил: ", "");
-        aiReply = aiReply.replace("Синебот рассказал:", "");
-        aiReply = aiReply.replace("Sinebot said:", "");
+        aiReply = aiReply.replace("<Синебот>: ", ""); 
+        aiReply = aiReply.replace("<Sinebot>: ", "");
 
         console.log("AI Reply", aiReply);
 
-        chatHistory[msgId + 1] = {
+        chatHistory[msgId + 1] = { 
             msgId: msgId + 1,
             fromId: 6578767077,
-            fromName: "Синебот",
-            replyToMsgId: msgId,
+            fromName: "Синебот", 
+            replyToMsgId: msgId, 
             replyToUserId: fromId,
             text: aiReply,
             date: Date.now(),
@@ -140,7 +134,7 @@ const buildReply = async function (msg) {
 
     }
 
-    return false;
+    return false; 
 }
 
-module.exports = buildReply;
+module.exports = buildReply; 
