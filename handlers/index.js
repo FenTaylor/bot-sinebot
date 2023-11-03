@@ -73,19 +73,20 @@ const buildReply = async function (msg) {
         
 
         return {
-            response: "Спасибо, не надо",
+            response: "Спасибо, не надо", 
             originMsgId: msg.message_id
         };
     }
 
     if (msg.text?.toLowerCase().includes('синебот') || msg.text?.toLowerCase().includes('sinebot')  || msg.text?.toLowerCase().includes('antialkashkabot') || msg.reply_to_message?.from.id === 6578767077) {
         
-        /*
+        return false;
+        
         return ({
             response: "Да уж",
             originMsgId: msg.message_id
         });
-        */
+        
 
         let fromId = msg.from.id;
         let fromName = msg.from.first_name;

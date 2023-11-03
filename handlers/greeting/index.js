@@ -13,7 +13,7 @@ module.exports = function (name) {
         "чат алкашей под прикрытием"
     ];
 
-    const randomGreeting = helloArray[Math.floor(Math.random() * helloArray.length)];
+    const randomGreeting = helloArray[Math.floor(Math.random() * helloArray.length)]; 
 
     let botReply;
     
@@ -22,5 +22,5 @@ module.exports = function (name) {
     botReply += `База для новичка (с чего стоит начать): Стеценко "Как не пить": https://t.me/mediateka_aa/38/180.\r\n\r\n`;
     botReply += `Удачи в твоем пути. Мы рядом, просто напиши - пара сотен трезвых алкашей в твоем кармане 😄`;
 
-    return botReply; 
-}; 
+    return botReply;  
+};   
