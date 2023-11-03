@@ -18,12 +18,15 @@ bot.on('message', async (msg) => {
         "reply_to_message_id": botReply.originMsgId,
         "parse_mode": "HTML"
       })
-      .then(result => setTimeout(
-        () => {
-          bot.deleteMessage(chatId, result.message_id);
-          bot.deleteMessage(chatId, botReply.originMsgId);
-        },
-        1000 * 60 * 3)
+      .then(result => {
+        if (botReply.delete) {
+          setTimeout(() => {
+            bot.deleteMessage(chatId, result.message_id);
+            bot.deleteMessage(chatId, botReply.originMsgId);
+          },
+            1000 * 60 * 5)
+        }
+      }
       );
   }
 

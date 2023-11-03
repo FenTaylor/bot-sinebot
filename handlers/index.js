@@ -29,7 +29,8 @@ const buildReply = async function (msg) {
 
         return {
             response: greeting(newMemberName),
-            originMsgId: msg.message_id
+            originMsgId: msg.message_id,
+            delete: true
         };
     }
 
@@ -64,11 +65,12 @@ const buildReply = async function (msg) {
     }
 
     if (msg.text === 'Хочешь чаю?' || msg.sticker?.thumbnail?.file_unique_id === 'AQADNwAD1QiNOXI') {
-
+        
         return {
             originMsgId: msg.message_id,
             sticker: "CAACAgIAAxkBAAOgZUBkkkoh_e_cH0s-mFinjLWOKlkAAjgAA9UIjTmWlPGVmKqJDzME"
         };
+        
 
         return {
             response: "Спасибо, не надо",
@@ -76,7 +78,14 @@ const buildReply = async function (msg) {
         };
     }
 
-    if (msg.text?.toLowerCase().includes('синебот') || msg.text?.toLowerCase().includes('sinebot') || msg.reply_to_message?.from.id === 6578767077) {
+    if (msg.text?.toLowerCase().includes('синебот') || msg.text?.toLowerCase().includes('sinebot')  || msg.text?.toLowerCase().includes('antialkashkabot') || msg.reply_to_message?.from.id === 6578767077) {
+        
+        /*
+        return ({
+            response: "Да уж",
+            originMsgId: msg.message_id
+        });
+        */
 
         let fromId = msg.from.id;
         let fromName = msg.from.first_name;
@@ -84,8 +93,8 @@ const buildReply = async function (msg) {
         let replyToMsgId = msg.reply_to_message?.message_id;
         let replyToUserId = msg.reply_to_message?.from.id;
 
-        chatHistory[msgId] = {
-            msgId: msgId,
+        let lastMsg = {
+            msgId: msgId, 
             fromId: fromId,
             fromName: fromName,
             replyToMsgId: replyToMsgId,
@@ -95,11 +104,14 @@ const buildReply = async function (msg) {
             role: "user"
         };
 
-        let aiReply = await ai(chatHistory);
+        let aiReply = await ai(chatHistory, lastMsg);
 
-        aiReply = aiReply.replace("Синебот сказал: ", "");
+        chatHistory[msgId] = lastMsg;
+
         aiReply = aiReply.replace("Синебот сказал:", "");
         aiReply = aiReply.replace("Синебот ответил: ", "");
+        aiReply = aiReply.replace("Синебот рассказал:", "");
+        aiReply = aiReply.replace("Sinebot said:", "");
 
         console.log("AI Reply", aiReply);
 
@@ -114,7 +126,7 @@ const buildReply = async function (msg) {
             role: "assistant"
         };
 
-        if (Object.keys(chatHistory).length > 30) {
+        if (Object.keys(chatHistory).length > 10) {
             chatHistory = {}
         }
 
