@@ -21,7 +21,7 @@ const openFun = async (chatHistory, lastMsg) => {
     messages.push({
         role: lastMsg.role,
         content: `<${lastMsg.fromName}>: ${lastMsg.text}`  
-    }); 
+    });  
     
     messages.unshift( { "role": "system", "content": process.env.BOT_PROMPT }); 
 
