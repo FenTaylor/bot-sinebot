@@ -107,6 +107,8 @@ const buildReply = async function (msg) {
 
         aiReply = aiReply.replace("<Синебот>: ", ""); 
         aiReply = aiReply.replace("<Sinebot>: ", "");
+        aiReply = aiReply.replace("<", "");
+        aiReply = aiReply.replace(">", "");
 
         console.log("AI Reply", aiReply);
 

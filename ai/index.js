@@ -4,10 +4,10 @@ dotenv.config();
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-    apiKey: process.env.CHATGPT_API_TOKEN
+    apiKey: process.env.CHATGPT_API_TOKEN  
 });
 
-const openFun = async (chatHistory, lastMsg) => {
+const openFun = async (chatHistory, lastMsg) => { 
 
     let messages = [];
 
@@ -30,10 +30,10 @@ const openFun = async (chatHistory, lastMsg) => {
     const chatCompletion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: messages,
-        max_tokens: 1000
+        max_tokens: 1000  
     }); 
 
     return chatCompletion.choices[0].message.content;
 } 
 
-module.exports = openFun; 
+module.exports = openFun;   
